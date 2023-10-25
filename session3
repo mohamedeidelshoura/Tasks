@@ -1,0 +1,81 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        int x;
+        do
+        {
+            do
+            {
+                Console.WriteLine("Library Managment System ");
+                Console.WriteLine("1- Add Book.");
+                Console.WriteLine("2- Display all Books.");
+                Console.WriteLine("3- Exit");
+                Console.WriteLine("What's your choice? ");
+            } while (!int.TryParse(Console.ReadLine(), out x) && x > 0 && x < 4);
+            switch (x)
+            {
+                case 1:
+                    Console.Write("Enter Title : ");
+                    string title = Console.ReadLine();
+                    Console.Write("Enter Auther : ");
+                    string auther = Console.ReadLine();
+                    Console.Write("Enter ID : ");
+                    string id = Console.ReadLine();
+                    int year;
+                    do
+                    {
+                        Console.Write("Enter Publish year : ");
+                    } while (!int.TryParse(Console.ReadLine(), out year));
+                    Library.AddBook(id, title, auther, year);
+                    break;
+                case 2:
+                    Library.DisplayBooks();
+                    break;
+                case 3:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    break;
+            }
+        } while (x != 3);
+    }
+}
+
+class Book
+{
+    public Book(string id, string title, string auther, int publishYear)
+    {
+        Id = id;
+        Title = title;
+        Auther = auther;
+        PublishYear = publishYear;
+    }
+    public string Id { get; set; }
+    public string Title { get; set; }
+    public string Auther { get; set; }
+    public int PublishYear { get; set; }
+}
+
+class Library
+{
+    static List<Book> books = new List<Book>();
+    public static void AddBook(string id, string title, string auther, int publishYear)
+    {
+        Book newBook = new Book(id, title, auther, publishYear);
+        books.Add(newBook);
+    }
+    public static void DisplayBooks()
+    {
+        if (books.Count == 0)
+        {
+            Console.WriteLine("There is None");
+            return;
+        }
+        Console.WriteLine("Books in the Library: ");
+        foreach (Book book in books)
+        {
+            Console.WriteLine(book.Title + " by " + book.Auther + ", ID: " + book.Id + ", Published: " + book.PublishYear);
+        }
+    }
+}
